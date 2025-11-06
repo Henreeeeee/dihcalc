@@ -14,13 +14,19 @@
   button:hover { background-color: #45a049; }
   .output { margin-top: 20px; font-size: 18px; font-weight: bold; color: #222; }
   .description { background: #eef; padding: 10px; border-radius: 8px; margin-top: 20px; }
+  .formula { background: #ddd; padding: 12px; border-radius: 8px; font-family: monospace; margin-bottom: 20px; text-align: center; }
 </style>
 </head>
 <body>
 
 <div class="container">
   <h1>Tip Force Calculator</h1>
-  <p>Enter your parameters to calculate the effective tip force (F<sub>tip</sub>) using the original formula.</p>
+
+  <div class="formula">
+    <strong>F<sub>tip</sub> = (2 × k × (1 + e) × W × f × (d + α × L)) / (g × Δt)</strong>
+  </div>
+
+  <p>Enter your parameters to calculate the tip force using the formula above.</p>
 
   <label>Body Weight (W) [lbs]:</label>
   <input type="number" id="weight" value="160">
@@ -61,14 +67,13 @@
       <li><strong>L:</strong> Penis length in meters.</li>
       <li><strong>α:</strong> Lever efficiency (0–1) — fraction of penis length contributing to tip velocity.</li>
       <li><strong>Δt:</strong> Contact time with the target in seconds.</li>
-      <li><strong>F<sub>tip</sub>:</strong> Tip force in Newtons (N), calculated using: F = (2 k (1+e) W f (d + α L)) / (g Δt)</li>
+      <li><strong>F<sub>tip</sub>:</strong> Tip force in Newtons (N), calculated using the formula above.</li>
     </ul>
   </div>
 </div>
 
 <script>
 function calculateForce() {
-  // Get values
   const W_lbs = parseFloat(document.getElementById('weight').value);
   const k = parseFloat(document.getElementById('k').value);
   const e = parseFloat(document.getElementById('e').value);
@@ -78,17 +83,11 @@ function calculateForce() {
   const alpha = parseFloat(document.getElementById('alpha').value);
   const dt = parseFloat(document.getElementById('dt').value);
 
-  // Constants
   const g = 9.8; // m/s^2
-  const W = W_lbs * 4.448; // Convert lbs to N
+  const W = W_lbs * 4.448; // convert lbs to N
 
-  // Tip velocity
   const v_tip = 2 * f * (d + alpha * L);
-
-  // Moving mass
   const m = k * (W / g);
-
-  // Tip force
   const F_tip = (1 + e) * m * v_tip / dt;
 
   document.getElementById('output').innerHTML = `Tip Force: ${F_tip.toFixed(2)} N`;
