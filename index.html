@@ -4,17 +4,94 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tip Force Calculator</title>
+<!-- Load MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 <style>
-  body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
-  h1 { color: #333; }
-  .container { max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-  input { width: 100%; padding: 8px; margin: 5px 0 15px 0; border-radius: 6px; border: 1px solid #ccc; }
-  label { font-weight: bold; }
-  button { padding: 10px 15px; border: none; background-color: #4CAF50; color: white; border-radius: 6px; cursor: pointer; font-size: 16px; }
-  button:hover { background-color: #45a049; }
-  .output { margin-top: 20px; font-size: 18px; font-weight: bold; color: #222; }
-  .description { background: #eef; padding: 10px; border-radius: 8px; margin-top: 20px; }
-  .formula { background: #ddd; padding: 12px; border-radius: 8px; font-family: monospace; margin-bottom: 20px; text-align: center; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #f0f4f8, #d9e2ec);
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    max-width: 650px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  }
+
+  h1 {
+    text-align: center;
+    color: #1a73e8;
+    margin-bottom: 10px;
+  }
+
+  .formula {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 24px;
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+  }
+
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    border: none;
+    background-color: #1a73e8;
+    color: white;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  button:hover {
+    background-color: #155ab6;
+  }
+
+  .output {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #222;
+    text-align: center;
+  }
+
+  .description {
+    background: #eef;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 25px;
+  }
+
+  .description ul {
+    padding-left: 20px;
+  }
+
+  .description li {
+    margin-bottom: 8px;
+  }
 </style>
 </head>
 <body>
@@ -22,20 +99,12 @@
 <div class="container">
   <h1>Tip Force Calculator</h1>
 
- <div class="formula">
-  <p style="font-size: 20px; text-align: center; margin: 0;">
-    <strong style="color:#1a73e8;">F<sub>tip</sub></strong> = 
-    <span style="color:#e67e22;">2</span> × 
-    <span style="color:#2ecc71;">k</span> × 
-    (<span style="color:#9b59b6;">1 + e</span>) × 
-    <span style="color:#e74c3c;">W</span> × 
-    <span style="color:#f1c40f;">f</span> × 
-    (<span style="color:#16a085;">d</span> + <span style="color:#34495e;">α × L</span>) 
-    / (<span style="color:#95a5a6;">g × Δt</span>)
-  </p>
-</div>
+  <!-- Formula rendered with MathJax -->
+  <div class="formula">
+    $$F_{\text{tip}} = \frac{2 \, k \, (1 + e) \, W \, f \, \big(d + \alpha L\big)}{g \, \Delta t}$$
+  </div>
 
-  <p>Enter your parameters to calculate the tip force using the formula above.</p>
+  <p>Enter your parameters below and click "Calculate Tip Force".</p>
 
   <label>Body Weight (W) [lbs]:</label>
   <input type="number" id="weight" value="160">
