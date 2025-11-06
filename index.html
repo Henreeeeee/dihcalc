@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tip Force Calculator</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
+  h1 { color: #333; }
+  .container { max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+  input { width: 100%; padding: 8px; margin: 5px 0 15px 0; border-radius: 6px; border: 1px solid #ccc; }
+  label { font-weight: bold; }
+  button { padding: 10px 15px; border: none; background-color: #4CAF50; color: white; border-radius: 6px; cursor: pointer; font-size: 16px; }
+  button:hover { background-color: #45a049; }
+  .output { margin-top: 20px; font-size: 18px; font-weight: bold; color: #222; }
+  .description { background: #eef; padding: 10px; border-radius: 8px; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Tip Force Calculator</h1>
+  <p>Enter your parameters below to calculate the effective tip force (F<sub>tip, effective</sub>) including friction.</p>
+
+  <label>Body Weight (W) [lbs]:</label>
+  <input type="number" id="weight" value="160">
+
+  <label>Fraction of Moving Mass (k) [0-1]:</label>
+  <input type="number" id="k" step="0.01" value="0.2">
+
+  <label>Elasticity Factor (e) [0-1]:</label>
+  <input type="number" id="e" step="0.01" value="0.3">
+
+  <label>Thrust Rate (f) [thrusts/sec]:</label>
+  <input type="number" id="f" step="0.1" value="2">
+
+  <label>Hip Stroke Distance (d) [m]:</label>
+  <input type="number" id="d" step="0.01" value="0.4">
+
+  <label>Penis Length (L) [m]:</label>
+  <input type="number" id="L" step="0.01" value="0.15">
+
+  <label>Lever Efficiency (α) [0-1]:</label>
+  <input type="number" id="alpha" step="0.01" value="0.8">
+
+  <label>Contact Time (Δt) [s]:</label>
+  <input type="number" id="dt" step="0.01" value="0.08">
+
+  <label>Friction Coefficient (μ) [0-1]:</label>
+  <input type="number" id="mu" step="0.01" value="0.2">
+
+  <label>Compression Fraction (β) [0-1]:</label>
+  <input type="number" id="beta" step="0.01" value="0.15">
+
+  <button onclick="calculateForce()">Calculate Tip Force</button>
+
+  <div class="output" id="output"></div>
+
+  <div class="description">
+    <h3>Variable Descriptions:</h3>
+    <ul>
+      <li><strong>W:</strong> Total body weight (lbs)</li>
+      <li><strong>k:</strong> Fraction of your body mass that is actually moving during the thrust (default ~0.2)</li>
+      <li><strong>e:</strong> Elasticity of collision (0 = inelastic, 1 = perfectly elastic)</li>
+      <li><strong>f:</strong> Thrust rate in cycles per second</li>
+      <li><strong>d:</strong> Hip stroke distance in meters</li>
+      <li><strong>L:</strong> Penis length in meters</li>
+      <li><strong>α:</strong> Lever efficiency of penis (0-1)</li>
+      <li><strong>Δt:</strong> Contact time in seconds</li>
+      <li><strong>μ:</strong> Coefficient of friction at the anus</li>
+      <li><strong>β:</strong> Fraction of body weight pressing the tip against the anus</li>
+      <li><strong>F<sub>tip, effective</sub>:</strong> Final effective tip force in Newtons</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+function calculateForce() {
+  // Get values
+  const W_lbs = parseFloat(document.getElementById('weight').value);
+  const k = parseFloat(document.getElementById('k').value);
+  const e = parseFloat(document.getElementById('e').value);
+  const f = parseFloat(document.getElementById('f').value);
+  const d = parseFloat(document.getElementById('d').value);
+  const L = parseFloat(document.getElementById('L').value);
+  const alpha = parseFloat(document.getElementById('alpha').value);
+  const dt = parseFloat(document.getElementById('dt').value);
+  const mu = parseFloat(document.getElementById('mu').value);
+  const beta = parseFloat(document.getElementById('beta').value);
+
+  // Constants
+  const g = 9.8; // m/s^2
+  const W = W_lbs * 4.448; // Convert lbs to N
+
+  // Tip velocity
+  const v_tip = 2 * f * (d + alpha * L);
+
+  // Moving mass
+  const m = k * (W / g);
+
+  // Original tip force
+  const F_tip = (1 + e) * m * v_tip / dt;
+
+  // Friction force
+  const F_friction = mu * beta * W;
+
+  // Effective tip force
+  const F_effective = F_tip - F_friction;
+
+  document.getElementById('output').innerHTML = `Effective Tip Force: ${F_effective.toFixed(2)} N`;
+}
+</script>
+
+</body>
+</html>
