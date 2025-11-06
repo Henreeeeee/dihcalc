@@ -20,7 +20,7 @@
 
 <div class="container">
   <h1>Tip Force Calculator</h1>
-  <p>Enter your parameters below to calculate the effective tip force (F<sub>tip, effective</sub>) including friction.</p>
+  <p>Enter your parameters to calculate the effective tip force (F<sub>tip</sub>) using the original formula.</p>
 
   <label>Body Weight (W) [lbs]:</label>
   <input type="number" id="weight" value="160">
@@ -46,12 +46,6 @@
   <label>Contact Time (Δt) [s]:</label>
   <input type="number" id="dt" step="0.01" value="0.08">
 
-  <label>Friction Coefficient (μ) [0-1]:</label>
-  <input type="number" id="mu" step="0.01" value="0.2">
-
-  <label>Compression Fraction (β) [0-1]:</label>
-  <input type="number" id="beta" step="0.01" value="0.15">
-
   <button onclick="calculateForce()">Calculate Tip Force</button>
 
   <div class="output" id="output"></div>
@@ -59,17 +53,15 @@
   <div class="description">
     <h3>Variable Descriptions:</h3>
     <ul>
-      <li><strong>W:</strong> Total body weight (lbs)</li>
-      <li><strong>k:</strong> Fraction of your body mass that is actually moving during the thrust (default ~0.2)</li>
-      <li><strong>e:</strong> Elasticity of collision (0 = inelastic, 1 = perfectly elastic)</li>
-      <li><strong>f:</strong> Thrust rate in cycles per second</li>
-      <li><strong>d:</strong> Hip stroke distance in meters</li>
-      <li><strong>L:</strong> Penis length in meters</li>
-      <li><strong>α:</strong> Lever efficiency of penis (0-1)</li>
-      <li><strong>Δt:</strong> Contact time in seconds</li>
-      <li><strong>μ:</strong> Coefficient of friction at the anus</li>
-      <li><strong>β:</strong> Fraction of body weight pressing the tip against the anus</li>
-      <li><strong>F<sub>tip, effective</sub>:</strong> Final effective tip force in Newtons</li>
+      <li><strong>W:</strong> Body weight in pounds (lbs). Converted to Newtons internally.</li>
+      <li><strong>k:</strong> Fraction of body mass that moves during the thrust (~0.2 for pelvis/torso).</li>
+      <li><strong>e:</strong> Elasticity factor (0 = inelastic, 1 = perfectly elastic).</li>
+      <li><strong>f:</strong> Thrust rate (cycles per second).</li>
+      <li><strong>d:</strong> Hip stroke distance in meters.</li>
+      <li><strong>L:</strong> Penis length in meters.</li>
+      <li><strong>α:</strong> Lever efficiency (0–1) — fraction of penis length contributing to tip velocity.</li>
+      <li><strong>Δt:</strong> Contact time with the target in seconds.</li>
+      <li><strong>F<sub>tip</sub>:</strong> Tip force in Newtons (N), calculated using: F = (2 k (1+e) W f (d + α L)) / (g Δt)</li>
     </ul>
   </div>
 </div>
@@ -85,8 +77,6 @@ function calculateForce() {
   const L = parseFloat(document.getElementById('L').value);
   const alpha = parseFloat(document.getElementById('alpha').value);
   const dt = parseFloat(document.getElementById('dt').value);
-  const mu = parseFloat(document.getElementById('mu').value);
-  const beta = parseFloat(document.getElementById('beta').value);
 
   // Constants
   const g = 9.8; // m/s^2
@@ -98,16 +88,10 @@ function calculateForce() {
   // Moving mass
   const m = k * (W / g);
 
-  // Original tip force
+  // Tip force
   const F_tip = (1 + e) * m * v_tip / dt;
 
-  // Friction force
-  const F_friction = mu * beta * W;
-
-  // Effective tip force
-  const F_effective = F_tip - F_friction;
-
-  document.getElementById('output').innerHTML = `Effective Tip Force: ${F_effective.toFixed(2)} N`;
+  document.getElementById('output').innerHTML = `Tip Force: ${F_tip.toFixed(2)} N`;
 }
 </script>
 
