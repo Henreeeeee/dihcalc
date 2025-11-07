@@ -15,7 +15,6 @@
     background: linear-gradient(to bottom, #f0f4f8, #d9e2ec);
     margin: 0;
     padding: 0;
-    transition: background 0.5s, filter 0.5s;
   }
 
   .container {
@@ -25,7 +24,6 @@
     padding: 30px 40px;
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-    transition: background 0.5s, color 0.5s;
   }
 
   h1 {
@@ -95,10 +93,9 @@
     margin-bottom: 8px;
   }
 
-  /* Easter egg: inverted colors including background */
+  /* Easter egg: inverted colors */
   .inverted {
     filter: invert(1) hue-rotate(180deg);
-    background: linear-gradient(to bottom, #0f0f0f, #303030) !important;
   }
 </style>
 </head>
@@ -158,7 +155,7 @@
   </div>
 
   <!-- Secret Easter egg input -->
-  <label>Enter your name:</label>
+  <label>Enter your name (secret Easter egg!):</label>
   <input type="text" id="username">
   <button onclick="checkName()">Check Name</button>
 
@@ -185,18 +182,20 @@ function calculateForce() {
   document.getElementById('output').innerHTML = `Tip Force: ${F_tip.toFixed(2)} N`;
 }
 
-// Easter egg: invert colors including background if name is "Josh"
+// Easter egg: invert colors if name is "Josh"
 let invertInterval;
 function checkName() {
   const name = document.getElementById('username').value.trim();
   if (name === "Josh" && !invertInterval) {
+    // Start inverting colors every 10 seconds
     invertInterval = setInterval(() => {
       document.body.classList.toggle('inverted');
-    }, 30; // 10 seconds
+    }, 30);
   }
 }
 </script>
 
 </body>
 </html>
+
 
