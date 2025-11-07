@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tip Force Calculator</title>
-<!-- Load MathJax -->
+<!-- Load MathJax for nice formula -->
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
@@ -92,6 +92,11 @@
   .description li {
     margin-bottom: 8px;
   }
+
+  /* Easter egg: inverted colors */
+  .inverted {
+    filter: invert(1) hue-rotate(180deg);
+  }
 </style>
 </head>
 <body>
@@ -138,16 +143,22 @@
     <h3>Variable Descriptions:</h3>
     <ul>
       <li><strong>W:</strong> Body weight in pounds (lbs). Converted to Newtons internally.</li>
-      <li><strong>k:</strong> Fraction of body mass that moves during the thrust (~0.2 for pelvis/torso).</li>
+      <li><strong>k:</strong> Fraction of body mass that moves during the thrust (~0.15–0.25 typical).</li>
       <li><strong>e:</strong> Elasticity factor (0 = inelastic, 1 = perfectly elastic).</li>
       <li><strong>f:</strong> Thrust rate (cycles per second).</li>
       <li><strong>d:</strong> Hip stroke distance in meters.</li>
       <li><strong>L:</strong> Penis length in meters.</li>
       <li><strong>α:</strong> Lever efficiency (0–1) — fraction of penis length contributing to tip velocity.</li>
-      <li><strong>Δt:</strong> Contact time with the target in seconds.</li>
+      <li><strong>Δt:</strong> Contact time with the target in seconds (~0.05–0.15 s typical).</li>
       <li><strong>F<sub>tip</sub>:</strong> Tip force in Newtons (N), calculated using the formula above.</li>
     </ul>
   </div>
+
+  <!-- Secret Easter egg input -->
+  <label>Enter your name (secret Easter egg!):</label>
+  <input type="text" id="username">
+  <button onclick="checkName()">Check Name</button>
+
 </div>
 
 <script>
@@ -169,6 +180,18 @@ function calculateForce() {
   const F_tip = (1 + e) * m * v_tip / dt;
 
   document.getElementById('output').innerHTML = `Tip Force: ${F_tip.toFixed(2)} N`;
+}
+
+// Easter egg: invert colors if name is "Josh"
+let invertInterval;
+function checkName() {
+  const name = document.getElementById('username').value.trim();
+  if (name === "Josh" && !invertInterval) {
+    // Start inverting colors every 10 seconds
+    invertInterval = setInterval(() => {
+      document.body.classList.toggle('inverted');
+    }, 30);
+  }
 }
 </script>
 
